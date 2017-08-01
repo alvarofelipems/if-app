@@ -15,4 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('instituicoes', 'InstituicoesController');
 Route::resource('cursos', 'CursosController');
+Route::resource('professores', 'ProfessoresController');
+Route::resource('cursos.disciplinas', 'DisciplinasController');
+
+Route::resource('cursos.turmas', 'TurmasController');
+Route::resource('cursos.turmas.periodos', 'PeriodosController');
+Route::get('cursos/{curso_id}/turmas/{turmas_id}/periodos/{periodo_id}/calendarios/{calendario_id}', 'TurmasController@horario');
+Route::post('cursos/{curso_id}/turmas/{turmas_id}/periodos/{periodo_id}/calendarios/{calendario_id}', 'TurmasController@salvarHorario')->name('cursos.turmas.salvarHorario');
+
+Route::resource('turmas.horarios', 'HorariosController');
+Route::resource('grade', 'GradesController');
+Route::resource('home', 'HomeController');
+

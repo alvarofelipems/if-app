@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="form-horizontal">
-        <h1>Turma</h1>
+       <h1 class="text-center">@yield('title')</h1>
         <div class="form-group">
             <label class="col-sm-2 control-label">Nome</label>
             <div class="col-sm-10">

@@ -2,122 +2,94 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Curso;
-
-use Validator;
+use Illuminate\Http\Request;
 
 class CursosController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-        return view('cursos.index')->with('cursos', Curso::all());
+        $cursos = Curso::where('instituicao_id', session('instituicao_id'))->get();
+        return view('cursos.index')->with('cursos', $cursos);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
         return view('cursos.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id = null)
+    public function store(Request $request)
     {
-        // validate
-        // read more on validation at http://laravel.com/docs/validation
-        $rules = array(
-            'nome'          => 'required',
-            //'ano'          => 'required',
-            /*'documento'     => 'required|numeric',
-            'email'         => 'required|email',
-            'telefone'      => 'numeric',
-            'celular'       => 'numeric',
-            
-            'logradouro'    => 'required',
-            'numero'        => 'required|numeric',
-            'bairro'        => 'required',
-            'cidade'        => 'required',
-            'cep'           => 'required|numeric',*/
-        );
-        $rules = [];
-        $validator = Validator::make($request->all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return redirect('cursos/create')
-                ->withErrors($validator);
-        } else {
-            // store
-            $cursos = Curso::findOrNew($id);
-            $cursos->fill($request->except('_token'));
-            $cursos->save();
-
-            // redirect
-            $request->session()->flash('message', 'Curso cadastrado com sucesso');
-            return redirect('cursos');
-        }
+        $cursos = new Curso;
+        $cursos->instituicao_id = $request->session()->get('instituicao_id');
+        $cursos->nome = $request->input('nome');
+        $cursos->save();
+        
+        $request->session()->flash('success', 'Curso cadastrado com sucesso');
+        return redirect()->route('cursos.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  \App\Cursos  $cursos
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
-        return view('cursos.show')->with('curso', Curso::findOrFail($id));
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  \App\Cursos  $cursos
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
-        return view('cursos.edit')->with('curso', Curso::findOrFail($id));
+        return view('cursos.edit')->with('cursos', Curso::findOrFail($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Cursos  $cursos
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
-        $this->store($request, $id);
-        return redirect('cursos');
+        $curso = Curso::findOrFail($id);
+        $curso->nome = $request->input('nome');
+        $curso->save();
+        $request->session()->flash('success', 'Curso editado com sucesso!');
+        return redirect()->route('cursos.index');
     }
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  \App\Cursos  $cursos
+     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cursos $cursos)
     {
         //
     }

@@ -1,20 +1,19 @@
 @extends('layouts.app')
 
-@section('content')
-    {!! Form::open(['url' => 'turmas', 'class' => 'form-horizontal']) !!}
-        <div class="col-md-6">
-            <h1 class="text-center">Dados</h1>
+@section('title', 'Cadastro de Cursos')
 
-            <div class="form-group">
-                {{ Form::label('nome', 'Nome', ['class' => 'col-md-4 control-label']) }}
-                <div class="col-md-8">
-                    {{ Form::text('nome', old('nome'), ['class' => 'form-control', 'placeholder' => 'Nome']) }}
-                </div> 
-            </div>
+@section('content')
+    <h1 class="text-center">@yield('title')</h1>
+    <br> 
+    <form method="POST" action="{{ route('cursos.store') }}">
+        {{ csrf_field() }}
+        <div class="form-group col-sm-6">
+            <label for="Nome">Nome</label>
+            {{-- Form::text('nome', 'nome') --}}
+            <input type="text" name="nome" class="form-control" id="Nome" placeholder="Nome">
         </div>
-        <div class="col-md-12 text-center">
-            {!! Html::ul($errors->all()) !!}
-            <button type="submit" class="btn btn-success">Salvar</button>
-        </div>
-    {{ Form::close() }}
+        <div class="form-group col-sm-12">                
+            <button type="submit" class="btn btn-default">Salvar</button> 
+        </div>            
+    </form>
 @endsection
