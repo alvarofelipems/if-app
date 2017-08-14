@@ -12,4 +12,9 @@ class Curso extends Model
     {
         return $this->hasMany('App\Disciplina');
     }
+    
+    public function turmas()
+    {
+        return $this->hasMany('App\Turma');
+    }
 }

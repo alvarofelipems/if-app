@@ -17,8 +17,8 @@ class DisciplinasController extends Controller
      */
     public function index($curso_id)
     {
-        $disciplinas = Disciplina::where('curso_id', $curso_id)->get();
-        return view('disciplinas.index')->with('disciplinas', $disciplinas);
+        $curso = Curso::findOrFail($curso_id);
+        return view('disciplinas.index')->with('curso', $curso);
     }
 
     /**
@@ -30,10 +30,7 @@ class DisciplinasController extends Controller
     {
         $curso = Curso::where('instituicao_id', session('instituicao_id'))->findOrFail($curso_id);
         $professores = Professor::where('instituicao_id', session('instituicao_id'))->get();
-        
-        return view('disciplinas.create')
-            ->with('curso', $curso)
-            ->with('professores', $professores);
+        return view('disciplinas.create')->with('curso', $curso)->with('professores', $professores);
     }
 
     /**
@@ -47,8 +44,9 @@ class DisciplinasController extends Controller
         $curso = Curso::where('instituicao_id', session('instituicao_id'))->findOrFail($curso_id);
         $disciplina = new Disciplina;
         $disciplina->curso_id = $curso->id;
-        $disciplina->professor_id = $request->input('professor_id');
-        $disciplina->disciplina = $request->input('nome');
+        $disciplina->nome = $request->input('nome');
+        $disciplina->periodo = $request->input('periodo');
+        
         $disciplina->save();
         
         $request->session()->flash('success', 'Disciplina cadastrada com sucesso');
@@ -76,11 +74,10 @@ class DisciplinasController extends Controller
     {
         $curso = Curso::where('instituicao_id', session('instituicao_id'))->findOrFail($curso_id);
         $disciplina = Disciplina::findOrFail($disciplina_id);
+        
         $professores = Professor::where('instituicao_id', session('instituicao_id'))->get();
-
-        return view('disciplinas.edit')
-            ->with('disciplina', $disciplina)
-            ->with('professores', $professores);
+        //dd($professores);
+        return view('disciplinas.edit')->with('disciplina', $disciplina)->with('professores', $professores);
     }
 
     /**
@@ -94,12 +91,16 @@ class DisciplinasController extends Controller
     {
         $curso = Curso::where('instituicao_id', session('instituicao_id'))->findOrFail($curso_id);
         $disciplina = Disciplina::findOrFail($disciplina_id);
-        $disciplina->professor_id = $request->input('professor_id');
+        //$disciplina->professor_id = $request->input('professor_id');
 
-        $disciplina->disciplina = $request->input('disciplina');
+        $disciplina->nome = $request->input('nome');
+        $disciplina->periodo = $request->input('periodo');
         $disciplina->save();
         
+        $disciplina->professores()->sync(array_keys($request->input('professores')));
+        
         $request->session()->flash('success', 'Disciplina editada com sucesso');
+        
         return redirect()->route('cursos.disciplinas.index', $curso->id);
     }
 

@@ -11,8 +11,13 @@ class Turma extends Model
         return $this->belongsTo('App\Curso');
     }
     
-    public function periodos()
+    public function calendarios()
     {
-        return $this->hasMany('App\Periodo');
+        return $this->hasMany('App\Calendario');
+    }
+    
+    public function aulas()
+    {
+        return $this->hasMany('App\Aula');
     }
 }

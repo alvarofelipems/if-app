@@ -15,7 +15,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                
+                    @foreach($periodos as $periodo)
+                        <tr>
+                            <td>
+                                <input type="text" name="periodo[{{ $periodo->id }}]" value="{{ $periodo->nome }}"/>
+                        @foreach($periodo->calendarios as $key => $calendario)
+                                <a href="{{ route('calendario', [$turma->curso->id, $turma->id, $periodo->id, $calendario->id]) }}">
+                                    {{ date('d/m/Y', strtotime($calendario->inicio)) }} até {{ date('d/m/Y', strtotime($calendario->fim)) }}
+                                    @if ($key, $periodo->calendarios->count()-1),@endif
+                                </a>
+                        @endforeach
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div class="row text-left" style="margin:0">
@@ -24,10 +36,8 @@
             </div>
         </div>
     </form>
+@endsection
 
-@endsection 
-
-  
 @section('script')
     <script>
         $(document).ready(function() {
@@ -40,4 +50,4 @@
             });
         });
     </script>
-@endsection   
+@endsection

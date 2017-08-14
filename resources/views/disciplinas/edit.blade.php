@@ -3,26 +3,38 @@
 @section('title', 'Alterar cadastro de disciplinas')
 
 @section('content')
-    {!! Form::model($disciplina, ['url' => route('cursos.disciplinas.update', [$disciplina->curso->id, $disciplina->id]), 'class' => 'form-horizontal', 'method' => 'PUT']) !!}
+       
+    @php $disciplina->professores = $disciplina->professores->keyBy('id'); @endphp
+    {!! Form::model($disciplina, ['url' => route('cursos.disciplinas.update', [$disciplina->curso->id, $disciplina->id, $disciplina->periodo]), 'class' => 'form-horizontal', 'method' => 'PUT']) !!}
         <h1 class="text-center">@yield('title')</h1>
         <br>
-        <div class="col-sm-6">
-            <div class="form-group">
-                {{ Form::label('disciplina', 'Nome', ['class' => 'col-md-4 control-label']) }}
-                <div class="col-sm-6">
-                    {{ Form::text('disciplina', old('disciplina'), ['class' => 'form-control', 'placeholder' => 'Nome do disciplina']) }}
+        <div class="form-group">
+            <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
+                    {{ Form::label('disciplina', 'Nome', ['class' => 'control-label']) }}
+                    {{ Form::text('nome', old('nome'), ['class' => 'form-control', 'placeholder' => 'Nome do disciplina']) }}
                 </div> 
             </div>
-        </div>
-        <div class="form-group col-sm-6">
-            {{ Form::label('professor_id', 'Professor', ['class' => 'col-md-4 control-label']) }}
-            <div class="col-sm-8">
-                {{ Form::select('professor_id', $professores->pluck('nome', 'id'), old('professor_id'), ['class' => 'form-control', 'placeholder' => 'Selecione o professor']) }}
+            <div class="form-group col-md-4">
+                <div class="form-group col-md-12">
+                    {{ Form::label('periodo', 'Período', ['class' => 'control-label']) }}
+                    {{ Form::number('periodo', old('periodo'), ['class' => 'form-control', 'placeholder' => 'Número do Período', 'min'=>'1', 'max'=>'12', 'required']) }}
+                </div> 
             </div>
-        </div>
-        <div class="col-sm-12 text-right">
-            {!! Html::ul($errors->all()) !!}
-            <button type="submit" class="btn btn-default">Salvar</button>
+            
+            <div class="form-group col-md-12">
+                @foreach ($professores as $professor)
+                    <label class="col-md-12">
+                        {{ Form::checkbox('professores['.$professor->id.']', true, old('professores['.$professor->id.']')), 'required' }} {{ $professor->nome }}
+                    </label>
+                @endforeach
+            </div>
+            
+            <div class="col-md-12 text-left">
+                {!! Html::ul($errors->all()) !!}
+                <a href="{{ route('cursos.disciplinas.index', $disciplina->curso->id) }}" class="btn btn-primary">Cancelar</a>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
         </div>
     {{ Form::close() }}    
 @endsection

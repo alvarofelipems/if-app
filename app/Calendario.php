@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Calendario extends Model
 {
-    public function periodo()
+    public function turma()
     {
-        return $this->belongsTo('App\Periodo');
+        return $this->belongsTo('App\Turma');
     }
     
     public function horarios()

@@ -1,5 +1,5 @@
 <?php
-
+//Inutilizado
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +13,6 @@ class Periodo extends Model
     
     public function calendarios()
     {
-        return $this->hasMany('App\Calendarios');
+        return $this->hasMany('App\Calendario');
     }
 }

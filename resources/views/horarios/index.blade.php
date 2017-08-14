@@ -37,14 +37,15 @@ $(document).ready(function() {
         events: 
             @php
                 $eventos = [];
-                foreach ($turma->horarios as $horario) {
+        dd($turma->calendarios->first()->horarios);
+                foreach ($turma->calendarios->first()->horarios as $horario) {
                     //dd($horario->disciplina);
                     for ($i = 1; $i<=31; $i++) {
                         $dia = date('Y-m-'.str_pad($i, 2, '0', STR_PAD_LEFT));
                         if (date('w', strtotime($dia)) == $horario->grade->dia_semana) {
                             $eventos[] = [
                                 'id' => $horario->disciplina->id,
-                                'title' => $horario->disciplina->disciplina,
+                                'title' => $horario->disciplina->nome,
                                 'start' => $dia.'T'.$horario->grade->inicio,
                                 'end' => $dia.'T'.$horario->grade->fim,
                             ];
@@ -77,10 +78,6 @@ $(document).ready(function() {
 
 </style>
 
-
-
-	
-    
 @endsection
 @section('content')
     <h1 class="text-center">@yield('title')</h1>

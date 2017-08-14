@@ -19,7 +19,10 @@
                 <li role="presentation"><a href="http://ifapp.dev/professores/">Professores</a></li>
                 <li role="presentation"><a href="http://ifapp.dev/cursos/">Cursos</a></li>
                 <li role="presentation"><a href="http://ifapp.dev/disciplinas/">Disciplinas</a></li>
+                <li role="presentation"><a href="http://ifapp.dev/turmas/">Períodos</a></li>
                 <li role="presentation"><a href="http://ifapp.dev/turmas/">Turmas</a></li>
+                <li role="presentation"><a href="http://ifapp.dev/turmas/">Horários</a></li>
+                <li role="presentation"><a href="http://ifapp.dev/turmas/">Permuta Aulas</a></li>
             </ul> 
         </div>                       
                  

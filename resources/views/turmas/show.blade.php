@@ -9,17 +9,7 @@
                 <p class="form-control-static">{{ $turma->nome }}</p>
             </div>
         </div>
-        
-        <h1>Matérias</h1>
-        @foreach($turma->materias as $materia)
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ $materia->nome }}</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" id="valor">{{ $materia->professor }}</p>
-                </div>
-            </div>
-        @endForeach
-        {{ Html::link(route('turmas.edit', $turma->id), 'Editar', ['class' => 'btn btn-success']) }}
+        {{-- Html::link(route('cursos.turmas.edit', $turma->id), 'Editar', ['class' => 'btn btn-success']) --}}
     </div>
 @endsection
 

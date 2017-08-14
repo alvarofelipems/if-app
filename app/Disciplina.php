@@ -10,4 +10,9 @@ class Disciplina extends Model
     {
         return $this->belongsTo('App\Curso');
     }
+    
+    public function professores()
+    {
+        return $this->belongsToMany('App\Professor', 'disciplinas_professores');
+    }
 }

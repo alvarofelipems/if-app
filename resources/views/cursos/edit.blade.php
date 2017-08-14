@@ -17,7 +17,8 @@
         
         <div class="col-md-12 text-center">
             {!! Html::ul($errors->all()) !!}
-            <button type="submit" class="btn btn-default">Salvar</button>
+            <a href="{{ route('cursos.index') }}" class="btn btn-primary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Salvar</button>
         </div>
     {{ Form::close() }}    
 @endsection

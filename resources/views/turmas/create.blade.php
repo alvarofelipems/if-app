@@ -12,19 +12,20 @@
             <input type="text" name="nome" class="form-control" id="Nome" placeholder="Insira o nome da turma" required>
         </div>
         <div class="form-group col-sm-3">
-            <label for="Ano">Ano</label>
+            <label for="Ano">Ano de início</label>
             <input type="number" name="ano_ini" class="form-control" maxlength="4" id="Ano" placeholder="Insira ano de início" required>
         </div>
         <div class="form-group col-sm-3">
-            <label for="Semestre">Semestre</label>
+            <label for="Semestre">Semestre de início</label>
             <input type="text" name="semestre_ini" class="form-control" id="Semestre" placeholder="Insira o semestre de início" required>
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('Curso') }}
             {{ Form::select('curso_id', $curso->pluck('nome', 'id'), old('curso_id'), ['class' => 'form-control', 'placeholder' => 'Selecione o curso']) }}
         </div>
-        <div class="form-group col-sm-12">                
-            <button type="submit" class="btn btn-default">Salvar</button> 
+        <div class="form-group col-sm-12">
+            <a href="{{ route('cursos.turmas.index', [$curso->id]) }}" class="btn btn-primary">Cancelar</a>                   
+            <button type="submit" class="btn btn-success">Salvar</button> 
         </div>            
     </form>
 @endsection
